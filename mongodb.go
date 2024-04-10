@@ -18,7 +18,7 @@ type Animal struct{
 }
 func (a Animal) add(url string){
    // Set client options
-clientOptions := options.Client().ApplyURI("mongodb://localhost:27017")
+clientOptions := options.Client().ApplyURI(url)
 
 
 // Connect to MongoDB

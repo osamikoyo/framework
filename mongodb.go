@@ -14,12 +14,12 @@ type Mongo interface {
 	scan(filter string)
 }
 
-type Animal struct {
+type Function struct {
 	age  int
 	name string
 }
 
-func (a Animal) add(url string, db string, collect string) {
+func (f Function) add(url string, db string, collect string) {
 	// Set client options
 	clientOptions := options.Client().ApplyURI(url)
 

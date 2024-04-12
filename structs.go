@@ -63,8 +63,5 @@ func (d DB) add( document bson.M)  {
 }
 
 type kytos struct{
-
   DB
-
-
 }

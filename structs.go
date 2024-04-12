@@ -7,20 +7,25 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-type Mongo interface {
-	add(collect string)
-	del(filter string)
-	scan(filter string)
+type DB struct{
+	
 }
-
-type Function struct {
-	age  int
-	name string
+type Data struct{  
+	url string
+	db string
+	collect string
 }
+var database Data = Data{
+	url: "localhost//2707",
+	db: "animal",
+	collect: "cats",
 
-func (f Function) add(url string, db string, collect string) {
+}
+func (d DB) add( ) {
 	// Set client options
+	url := database.url
+	collect := database.collect
+	db := database.db
 	clientOptions := options.Client().ApplyURI(url)
 
 	// Connect to MongoDB
@@ -57,4 +62,11 @@ func (f Function) add(url string, db string, collect string) {
 
 	// Print the ID of the inserted document
 	fmt.Println("Inserted document ID:", result.InsertedID)
+}
+
+type kytos struct{
+
+  DB
+
+
 }

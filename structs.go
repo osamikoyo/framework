@@ -7,21 +7,21 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-type DB struct{
-	
-}
+type DB struct{}
 type Data struct{  
 	url string
 	db string
 	collect string
 }
+
 var database Data = Data{
-	url: "localhost//2707",
-	db: "animal",
-	collect: "cats",
+	url: "mongodb://localhost:27017",
+	db: "OSamidb",
+	collect: "animal",
 
 }
-func (d DB) add( ) {
+
+func (d DB) add( document bson.M)  {
 	// Set client options
 	url := database.url
 	collect := database.collect
@@ -49,9 +49,7 @@ func (d DB) add( ) {
 	collection := database.Collection(collect)
 
 	// Define a document
-	document := bson.M{
-		"key": "value",
-	}
+	
 
 	// Insert the document
 	result, err := collection.InsertOne(context.TODO(), document)

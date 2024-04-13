@@ -5,14 +5,6 @@ import (
 	"net/http"
 
 ) 
- func (d DB) http(){
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request){
-	   tmpl, _ := template.ParseFiles("./tmpl/sf.html")
-	   tmpl.Execute(w, tmpl)
-
-    })
- }
-
 func (d DB) httpReq() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, _ := template.ParseFiles("./tmpl/index.html")

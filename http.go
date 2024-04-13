@@ -3,9 +3,9 @@ package main
 import (
 	"html/template"
 	"net/http"
-)
 
-func (d DB) http() {
+) 
+func (d DB) httpReq() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		tmpl, _ := template.ParseFiles("./tmpl/index.html")
 		tmpl.Execute(w, tmpl)

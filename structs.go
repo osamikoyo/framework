@@ -7,20 +7,25 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
-
-type Mongo interface {
-	add(collect string)
-	del(filter string)
-	scan(filter string)
+type DB struct{}
+type Data struct{  
+	url string
+	db string
+	collect string
 }
 
-type Animal struct {
-	age  int
-	name string
+var database Data = Data{
+	url: "mongodb://localhost:27017",
+	db: "OSamidb",
+	collect: "animal",
+
 }
 
-func (a Animal) add(url string, db string, collect string) {
+func (d DB) add( document bson.M)  {
 	// Set client options
+	url := database.url
+	collect := database.collect
+	db := database.db
 	clientOptions := options.Client().ApplyURI(url)
 
 	// Connect to MongoDB
@@ -44,9 +49,7 @@ func (a Animal) add(url string, db string, collect string) {
 	collection := database.Collection(collect)
 
 	// Define a document
-	document := bson.M{
-		"key": "value",
-	}
+	
 
 	// Insert the document
 	result, err := collection.InsertOne(context.TODO(), document)
@@ -57,4 +60,8 @@ func (a Animal) add(url string, db string, collect string) {
 
 	// Print the ID of the inserted document
 	fmt.Println("Inserted document ID:", result.InsertedID)
+}
+
+type kytos struct{
+  DB
 }

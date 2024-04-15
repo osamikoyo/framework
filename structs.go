@@ -63,33 +63,48 @@ func (d DB) add( document bson.M) {
 }
 
 
-func (d DB) scan() (bson.M){
-	clientOptions := options.Client().ApplyURI(database.url)
-client, err := mongo.Connect(context.Background(), clientOptions)
-if err != nil {
-log.Fatal(err)
-}
+func (d DB) scan(filter bson.M) ([]bson.M){
+	    // Set client options
+		clientOptions := options.Client().ApplyURI(database.url)
 
-collection := client.Database(database.db).Collection(database.collect)
-cursor, err := collection.Find(context.Background(), nil)
-if err != nil {
-    log.Fatal(err)
-}
-
-defer cursor.Close(context.Background())
-var result bson.M
-for cursor.Next(context.Background()) {
-    if err := cursor.Decode(&result); err != nil {
-        log.Fatal(err)
-    }
-
-}
-
-if err := cursor.Err(); err != nil {
-    log.Fatal(err)
-}
-return result
-}
-type kytos struct{
-  DB
+		// Connect to MongoDB
+		client, err := mongo.Connect(context.Background(), clientOptions)
+		if err != nil {
+			log.Fatal(err)
+		}
+	
+		// Check the connection
+		err = client.Ping(context.Background(), nil)
+		if err != nil {
+			log.Fatal(err)
+		}
+	
+		// Get a handlonto the "users" collection in the "mydb" database
+		collection := client.Database(database.db).Collection(database.collect)
+	
+		// Define a filter to match documents with a specific email address
+	
+		// Find the user document(s) matching the filter
+		var results []bson.M
+		cursor, err := collection.Find(context.Background(), filter)
+		if err != nil {
+			log.Fatal(err)
+		}
+	
+		// Iterate over the cursor and decode the documents into User structs
+		defer cursor.Close(context.Background())
+		for cursor.Next(context.Background()) {
+			var user bson.M
+			err := cursor.Decode(&user)
+			if err != nil {
+				log.Fatal(err)
+			}
+			results = append(results, user)
+		}
+	
+		fmt.Printf("Found %d user(s):\n", len(results))
+		
+		return results
+	
+	
 }
